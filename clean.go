@@ -25,3 +25,12 @@ func Clean(s string) string {
 		return -1
 	}, s)
 }
+
+// CleanPtr is the same as Clean but accepts a pointer to a string.
+func CleanPtr(s *string) *string {
+	if s == nil {
+		return nil
+	}
+	v := Clean(*s)
+	return &v
+}
