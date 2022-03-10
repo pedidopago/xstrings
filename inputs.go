@@ -195,6 +195,21 @@ func Whitelist(v string, allowed string) string {
 	return string(runeb)
 }
 
+// Blacklist will remove certain characters
+func Blacklist(v string, cutset string) string {
+	runeray := make(map[rune]bool)
+	for _, r := range cutset {
+		runeray[r] = true
+	}
+	runeb := make([]rune, 0, len(v))
+	for _, r := range v {
+		if !runeray[r] {
+			runeb = append(runeb, r)
+		}
+	}
+	return string(runeb)
+}
+
 type containsRuneFunc func(rune) bool
 
 func (f containsRuneFunc) Contains(r rune) bool {

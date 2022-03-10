@@ -1,8 +1,9 @@
 package xstrings_test
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 
 	"github.com/pedidopago/xstrings"
 	"github.com/stretchr/testify/assert"
@@ -43,4 +44,8 @@ func TestRemoveDiacritics(t *testing.T) {
 	const withoutDiacritics = "aaaaaeeeeeiiiiiooooouuuuu"
 	v := xstrings.RemoveDiacritics(withDiacritics)
 	require.Equal(t, withoutDiacritics, v)
+}
+
+func TestBlacklist(t *testing.T) {
+	require.Equal(t, "31232211122", xstrings.Blacklist("312.32 2.111-22", " .-"))
 }
