@@ -34,3 +34,8 @@ func FormatNumeric(s string) string {
 		return -1
 	}, s)
 }
+
+// Length returns the string length.
+func Length(s string) int {
+	return len([]rune(s))
+}
