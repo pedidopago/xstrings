@@ -32,9 +32,9 @@ func MaskUsername(v string) string {
 	return string(vr[:hintLength]) + strings.Repeat("*", len(vr)-hintLength)
 }
 
-// MaskStepped masks "John Doe da Silva" into "Joh* **e da ***va"
+// MaskStepped masks "John Doe da Silva" into "Jo** **e d* ***va"
 func MaskStepped(v string) string {
-	return maskStepped(v, 3, 3)
+	return maskStepped(v, 2, 4)
 }
 
 // MaskDocument is used to maks the first and last digits of a document. It ignores

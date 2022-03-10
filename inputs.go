@@ -2,6 +2,7 @@ package xstrings
 
 import (
 	"bytes"
+	"net/mail"
 	"strings"
 	"unicode"
 
@@ -208,6 +209,13 @@ func Blacklist(v string, cutset string) string {
 		}
 	}
 	return string(runeb)
+}
+
+// IsValidEmail returns true if the email appears to be valid. Uses net/mail
+// internally.
+func IsValidEmail(email string) bool {
+	_, err := mail.ParseAddress(email)
+	return err == nil
 }
 
 type containsRuneFunc func(rune) bool
