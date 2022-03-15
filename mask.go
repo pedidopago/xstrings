@@ -73,6 +73,18 @@ func MaskDocument(v string) string {
 	return result.String()
 }
 
+//MaskAddressNumber: mask the first numbers of an address and shows the last number.
+//
+// Example:
+//
+//	MaskAddressNumber("12345") into ****5
+func MaskAddressNumber(v string) string {
+	if v == "" {
+		return ""
+	}
+	return maskFirst(v, 1)
+}
+
 func Mask(v string) string {
 	if strings.Contains(v, "@") && len(v) > 4 {
 		x := strings.IndexRune(v, '@')

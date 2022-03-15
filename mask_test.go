@@ -20,3 +20,9 @@ func TestMaskDocument(t *testing.T) {
 	assert.Equal(t, "**", MaskDocument("12"))
 	assert.Equal(t, "", MaskDocument(""))
 }
+
+func TestMaskAddressNumber(t *testing.T) {
+	assert.Equal(t, "***4", MaskAddressNumber("1234"))
+	assert.Equal(t, "**3", MaskAddressNumber("123"))
+	assert.Equal(t, "", MaskAddressNumber(""))
+}
