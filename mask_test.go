@@ -26,3 +26,17 @@ func TestMaskAddressNumber(t *testing.T) {
 	assert.Equal(t, "**3", MaskAddressNumber("123"))
 	assert.Equal(t, "", MaskAddressNumber(""))
 }
+
+func TestMaskPrefix(t *testing.T) {
+	assert.Equal(t, "***", MaskPrefix("123", 0))
+	assert.Equal(t, "", MaskPrefix("", 0))
+	assert.Equal(t, "*****ade", MaskPrefix("Lemonade", 3))
+	assert.Equal(t, "*****chet", MaskPrefix("Trebuchet", 4))
+}
+
+func TestMaskSuffix(t *testing.T) {
+	assert.Equal(t, "***", MaskSuffix("123", 0))
+	assert.Equal(t, "", MaskSuffix("", 0))
+	assert.Equal(t, "Lem*****", MaskSuffix("Lemonade", 3))
+	assert.Equal(t, "Treb*****", MaskSuffix("Trebuchet", 4))
+}

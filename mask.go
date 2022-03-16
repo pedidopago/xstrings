@@ -101,6 +101,30 @@ func maskFirst(v string, minshow int) string {
 	return strings.Repeat("*", cut) + v[cut:]
 }
 
+// MaskPrefix masks the first n-remainder characters of a string.
+//
+// Example:
+//
+// 	MaskPrefix("Lemonade", 3) // "*****ade"
+func MaskPrefix(v string, remainder int) string {
+	if Length(v) <= remainder {
+		return v
+	}
+	return strings.Repeat("*", Length(v)-remainder) + v[Length(v)-remainder:]
+}
+
+// MaskSuffix masks the last n-prefixl characters of a string.
+//
+// Example:
+//
+// 	MaskSuffix("Lemonade", 3) // "Lem*****"
+func MaskSuffix(v string, prefixl int) string {
+	if Length(v) <= prefixl {
+		return v
+	}
+	return v[:prefixl] + strings.Repeat("*", Length(v)-prefixl)
+}
+
 func maskStepped(v string, clearStep, maskStep int) string {
 	var result strings.Builder
 	cc := 0
