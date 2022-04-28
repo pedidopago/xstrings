@@ -49,3 +49,16 @@ func TestMatchNumericPrefix(t *testing.T) {
 	require.True(t, xstrings.MatchNumericPrefix("5511999999999", 50, 55))
 	require.False(t, xstrings.MatchNumericPrefix("5511999999999", 49, 54))
 }
+
+func TestSplitIntlPhoneNumber(t *testing.T) {
+	const brphone = "+5511989999999"
+	cc, ac, num := xstrings.SplitIntlPhoneNumber(brphone)
+	require.Equal(t, "55", cc)
+	require.Equal(t, "11", ac)
+	require.Equal(t, "989999999", num)
+	const usphone = "+1 313 423 5234"
+	cc, ac, num = xstrings.SplitIntlPhoneNumber(usphone)
+	require.Equal(t, "1", cc)
+	require.Equal(t, "313", ac)
+	require.Equal(t, "4235234", num)
+}
