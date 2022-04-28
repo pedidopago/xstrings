@@ -27,6 +27,7 @@ func Clean(s string) string {
 }
 
 // CleanPtr is the same as Clean but accepts a pointer to a string.
+// If s is nil, it doesn't do anything.
 func CleanPtr(s *string) *string {
 	if s == nil {
 		return nil

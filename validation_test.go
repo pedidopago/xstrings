@@ -24,3 +24,31 @@ func TestIsValidCNPJ(t *testing.T) {
 	require.True(t, xstrings.IsValidCNPJ(validCnpjOnlyNumbers))
 	require.False(t, xstrings.IsValidCNPJ(invalidCnpj))
 }
+
+func TestIsValidEmail(t *testing.T) {
+	const validEmail = "someone@gmail.com"
+	const invalidEmail = "someone@.gmail"
+	const invalidEmail2 = "someone@gmail."
+	const validEmail2 = "some+one.example@gmail.com"
+	require.True(t, xstrings.IsValidEmail(validEmail))
+	require.False(t, xstrings.IsValidEmail(invalidEmail))
+	require.False(t, xstrings.IsValidEmail(invalidEmail2))
+	require.True(t, xstrings.IsValidEmail(validEmail2))
+}
+
+func TestIsValidIntlMobilePhoneNumber(t *testing.T) {
+	const validMobile = "+5511999999999"
+	const validMobile2 = "+5511 999999999"
+	const validMobile3 = "5511-999999999"
+	const validMobile4 = "1 250 555 0199"
+	const invalidMobile = "+5511 12345678"
+	const invalidMobile2 = "+5511 1234567800"
+	const invalidMobile3 = "+1 2 3 4 5 6"
+	require.True(t, xstrings.IsValidIntlMobilePhoneNumber(validMobile))
+	require.True(t, xstrings.IsValidIntlMobilePhoneNumber(validMobile2))
+	require.True(t, xstrings.IsValidIntlMobilePhoneNumber(validMobile3))
+	require.True(t, xstrings.IsValidIntlMobilePhoneNumber(validMobile4))
+	require.False(t, xstrings.IsValidIntlMobilePhoneNumber(invalidMobile))
+	require.False(t, xstrings.IsValidIntlMobilePhoneNumber(invalidMobile2))
+	require.False(t, xstrings.IsValidIntlMobilePhoneNumber(invalidMobile3))
+}
