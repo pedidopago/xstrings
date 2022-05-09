@@ -40,3 +40,8 @@ func TestMaskSuffix(t *testing.T) {
 	assert.Equal(t, "Lem*****", MaskSuffix("Lemonade", 3))
 	assert.Equal(t, "Treb*****", MaskSuffix("Trebuchet", 4))
 }
+
+func TestMaskIntlPhoneNumber(t *testing.T) {
+	assert.Equal(t, "55*******9999", MaskIntlPhoneNumber("5511999999999"))
+	assert.Equal(t, "01******9999", MaskIntlPhoneNumber("018009999999"))
+}

@@ -125,6 +125,16 @@ func MaskSuffix(v string, prefixl int) string {
 	return v[:prefixl] + strings.Repeat("*", Length(v)-prefixl)
 }
 
+// MaskIntlPhoneNumber mask phone number, this method ignore ddi.
+//
+// Example:
+//
+// 	MaskIntlPhoneNumber("5511999999999") // "55*******9999"
+func MaskIntlPhoneNumber(v string) string {
+	cc, areac, num := SplitIntlPhoneNumber(v)
+	return cc + MaskPrefix(areac+num, 4)
+}
+
 func maskStepped(v string, clearStep, maskStep int) string {
 	var result strings.Builder
 	cc := 0
