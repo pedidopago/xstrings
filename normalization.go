@@ -2,9 +2,18 @@ package xstrings
 
 import (
 	"regexp"
+	"strings"
 
 	"github.com/avito-tech/normalize"
 )
+
+var addressLowercases = map[string]bool{
+	"da":  true,
+	"das": true,
+	"do":  true,
+	"dos": true,
+	"de":  true,
+}
 
 func NormalizeForAddress(s string) string {
 	v := normalize.Normalize(s, withRemoveSpecialChars(),
@@ -13,11 +22,29 @@ func NormalizeForAddress(s string) string {
 		normalize.WithUmlautToLatinLookAlike())
 	v = leadClosingWhitespacePattern.ReplaceAllString(v, "")
 	v = insideWhitespacePattern.ReplaceAllString(v, " ")
-	return v
+	vsplit := strings.Split(v, " ")
+	vb := new(strings.Builder)
+	for i, s := range vsplit {
+		if i > 0 {
+			vb.WriteString(" ")
+		}
+		if len(s) > 1 {
+			if addressLowercases[strings.ToLower(s)] {
+				vb.WriteString(strings.ToLower(s))
+			} else {
+				srunes := []rune(s)
+				vb.WriteString(strings.ToUpper(string(srunes[0])))
+				vb.WriteString(strings.ToLower(string(srunes[1:])))
+			}
+		} else {
+			vb.WriteString(strings.ToLower(s))
+		}
+	}
+	return vb.String()
 }
 
 var (
-	specialCharsPattern          = regexp.MustCompile(`(?i:[^äöüa-zа-яё0-9\s])`)
+	specialCharsPattern          = regexp.MustCompile(`(?i:[^äãõéáíóñöüa-zа-яё0-9\s])`)
 	leadClosingWhitespacePattern = regexp.MustCompile(`^[\s\p{Zs}]+|[\s\p{Zs}]+$`)
 	insideWhitespacePattern      = regexp.MustCompile(`[\s\p{Zs}]{2,}`)
 )
