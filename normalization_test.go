@@ -13,4 +13,6 @@ func TestNormalization(t *testing.T) {
 	assert.Equal(t, "Rua 123 Apto 1232", xstrings.NormalizeForAddress(" Rua   123.    Apto   1232    "))
 	assert.Equal(t, "São Paulo", xstrings.NormalizeForAddress("São    PaUlo  "))
 	assert.Equal(t, "Rua 23 de Maio", xstrings.NormalizeForAddress(" rua 23 DE maio"))
+	assert.Equal(t, "", xstrings.NormalizeForAddress(" "))
+	assert.Equal(t, "12", xstrings.NormalizeForAddress(" 12 "))
 }
