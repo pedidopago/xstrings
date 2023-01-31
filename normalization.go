@@ -43,6 +43,34 @@ func NormalizeForAddress(s string) string {
 	return vb.String()
 }
 
+func NormalizeForName(s string) string {
+	v := normalize.Normalize(s,
+		normalize.WithFixRareCyrillicChars(),
+		normalize.WithCyrillicToLatinLookAlike(),
+		normalize.WithUmlautToLatinLookAlike())
+	v = leadClosingWhitespacePattern.ReplaceAllString(v, "")
+	v = insideWhitespacePattern.ReplaceAllString(v, " ")
+	vsplit := strings.Split(v, " ")
+	vb := new(strings.Builder)
+	for i, s := range vsplit {
+		if i > 0 {
+			vb.WriteString(" ")
+		}
+		if len(s) > 1 {
+			if addressLowercases[strings.ToLower(s)] {
+				vb.WriteString(strings.ToLower(s))
+			} else {
+				srunes := []rune(s)
+				vb.WriteString(strings.ToUpper(string(srunes[0])))
+				vb.WriteString(strings.ToLower(string(srunes[1:])))
+			}
+		} else {
+			vb.WriteString(strings.ToLower(s))
+		}
+	}
+	return vb.String()
+}
+
 var (
 	specialCharsPattern          = regexp.MustCompile(`(?i:[^äãõéáíóñöüa-zа-яё0-9\s])`)
 	leadClosingWhitespacePattern = regexp.MustCompile(`^[\s\p{Zs}]+|[\s\p{Zs}]+$`)
