@@ -33,6 +33,7 @@ func isMnOrDingbats(r rune) bool {
 	if isMn(r) {
 		return true
 	}
+	// dingbats
 	if r >= 0x2700 && r <= 0x27BF {
 		return true
 	}
