@@ -19,4 +19,5 @@ func TestNormalization(t *testing.T) {
 	assert.Equal(t, "Lúcio Mauro Araújo", xstrings.NormalizeForName("LúcIo  MaUro Araújo  "))
 	assert.Equal(t, "Clau", xstrings.NormalizeForNameExcludingInvalidChars("𝒄𝒍𝒂𝒖 ❀"))
 	assert.Equal(t, "", xstrings.NormalizeForNameExcludingInvalidChars(" "))
+	assert.Equal(t, "", xstrings.NormalizeForNameExcludingInvalidChars(","))
 }

@@ -36,6 +36,10 @@ func isMnOrDingbats(r rune) bool {
 	if r >= 0x2700 && r <= 0x27BF {
 		return true
 	}
+	switch r {
+	case '.', ',', ';', ':', '!', '?', '(', ')', '[', ']', '{', '}', '/', '\\', '"', '\'', '\t', '\n', '\r', '\v', '\f', '\a', '\b', '\000':
+		return true
+	}
 	return false
 }
 
@@ -43,5 +47,5 @@ func NormalizeForNameExcludingInvalidChars(v string) string {
 	t := transform.Chain(norm.NFKD, runes.Remove(containsRuneFunc(isMnOrDingbats)), norm.NFC)
 	// t := transform.Chain(norm.NFKD, transform.RemoveFunc(isMn), norm.NFC)
 	v, _, _ = transform.String(t, v)
-	return NormalizeForName(RemoveEmojis(v))
+	return strings.TrimSpace(NormalizeForName(RemoveEmojis(v)))
 }
