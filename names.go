@@ -4,6 +4,9 @@ import (
 	"strings"
 
 	"github.com/forPelevin/gomoji"
+	"golang.org/x/text/runes"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 )
 
 func FirstName(v string) string {
@@ -24,4 +27,21 @@ func RemoveEmojis(v string) string {
 
 func ContainsEmoji(v string) bool {
 	return gomoji.ContainsEmoji(v)
+}
+
+func isMnOrDingbats(r rune) bool {
+	if isMn(r) {
+		return true
+	}
+	if r >= 0x2700 && r <= 0x27BF {
+		return true
+	}
+	return false
+}
+
+func NormalizeForNameExcludingInvalidChars(v string) string {
+	t := transform.Chain(norm.NFKD, runes.Remove(containsRuneFunc(isMnOrDingbats)), norm.NFC)
+	// t := transform.Chain(norm.NFKD, transform.RemoveFunc(isMn), norm.NFC)
+	v, _, _ = transform.String(t, v)
+	return NormalizeForName(RemoveEmojis(v))
 }

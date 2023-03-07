@@ -17,4 +17,6 @@ func TestNormalization(t *testing.T) {
 	assert.Equal(t, "12", xstrings.NormalizeForAddress(" 12 "))
 	assert.Equal(t, "01232092", xstrings.NormalizeForAddress(" 01232-092 "))
 	assert.Equal(t, "Lúcio Mauro Araújo", xstrings.NormalizeForName("LúcIo  MaUro Araújo  "))
+	assert.Equal(t, "Clau", xstrings.NormalizeForNameExcludingInvalidChars("𝒄𝒍𝒂𝒖 ❀"))
+	assert.Equal(t, "", xstrings.NormalizeForNameExcludingInvalidChars(" "))
 }
