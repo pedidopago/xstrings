@@ -32,10 +32,10 @@ func Length(s string) int {
 
 // NormalizeIntlPhoneNumberStr removes all non-numeric characters from a string.
 //
-//		NormalizeIntlPhoneNumberStr("+1-234-567-8901", true) // "+12345678901"
-//		NormalizeIntlPhoneNumberStr("+1-234-567-8901", false) // "12345678901"
-//		NormalizeIntlPhoneNumberStr("1-234-567-8901", true) // "+12345678901"
-//		NormalizeIntlPhoneNumberStr("1-234-567-8901", false) // "12345678901"
+//	NormalizeIntlPhoneNumberStr("+1-234-567-8901", true) // "+12345678901"
+//	NormalizeIntlPhoneNumberStr("+1-234-567-8901", false) // "12345678901"
+//	NormalizeIntlPhoneNumberStr("1-234-567-8901", true) // "+12345678901"
+//	NormalizeIntlPhoneNumberStr("1-234-567-8901", false) // "12345678901"
 func NormalizeIntlPhoneNumberStr(s string, plusSign bool) string {
 	num := NormalizeNumericStr(s)
 	if plusSign {
@@ -46,7 +46,7 @@ func NormalizeIntlPhoneNumberStr(s string, plusSign bool) string {
 
 // NormalizeNumericStr removes all non-numeric characters from a string.
 //
-//		NormalizeNumericStr("+1-234-567-8901") // "12345678901"
+//	NormalizeNumericStr("+1-234-567-8901") // "12345678901"
 func NormalizeNumericStr(s string) string {
 	return strings.Map(func(r rune) rune {
 		if r >= '0' && r <= '9' {
@@ -180,7 +180,7 @@ func Whitelist(v string, allowed string) string {
 
 // FormatPhoneNumber removes all non-numeric characters from a string.
 //
-//		FormatPhoneNumber("+1-234-567-8901") // "+12345678901"
+//	FormatPhoneNumber("+1-234-567-8901") // "+12345678901"
 //
 // Deprecated: use `NormalizeIntlPhoneNumberStr` instead
 func FormatPhoneNumber(s string) string {
@@ -203,7 +203,7 @@ func FormatPhoneNumber(s string) string {
 
 // FormatNumeric removes all non-numeric characters from a string.
 //
-//		FormatNumeric("+1-234-567-8901") // "12345678901"
+//	FormatNumeric("+1-234-567-8901") // "12345678901"
 //
 // Deprecated: use `NormalizeNumericStr` instead
 func FormatNumeric(s string) string {
@@ -218,25 +218,16 @@ func NumbersOnly(str string) string {
 }
 
 func runeV(r rune) int {
-	switch r {
-	case '9':
-		return 9
-	case '8':
-		return 8
-	case '7':
-		return 7
-	case '6':
-		return 6
-	case '5':
-		return 5
-	case '4':
-		return 4
-	case '3':
-		return 3
-	case '2':
-		return 2
-	case '1':
-		return 1
+	if r >= '0' && r <= '9' {
+		return int(r - '0')
+	}
+	return 0
+}
+
+func runeIV(r int) rune {
+	const runeTable = "0123456789"
+	if r >= 0 && r < 10 {
+		return rune(runeTable[r])
 	}
 	return 0
 }

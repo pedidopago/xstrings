@@ -1,6 +1,10 @@
 package xstrings
 
-import "net/mail"
+import (
+	"math/rand"
+	"net/mail"
+	"strings"
+)
 
 // IsValidCNPJ returns true if the input is a valid CNPJ.
 func IsValidCNPJ(cnpj string) bool {
@@ -10,6 +14,11 @@ func IsValidCNPJ(cnpj string) bool {
 // IsValidCPF returns true if the input is a valid cpf
 func IsValidCPF(cpf string) bool {
 	return validateCPF(cpf) != ""
+}
+
+// NewRandomCPF returns a new valid CPF
+func NewRandomCPF() string {
+	return newRandomCPF()
 }
 
 // IsValidEmail returns true if the email appears to be valid. Uses net/mail
@@ -58,6 +67,39 @@ func isValidInternationalPhoneNumber(phone string, mustBeMobile bool) bool {
 		return len(fullnum) >= 12 && len(fullnum) <= 13
 	}
 	return true
+}
+
+func newRandomCPF() string {
+	dgts := make([]int, 9)
+	dcode := make([]int, 2)
+	for i := range dgts {
+		dgts[i] = rand.Intn(10)
+	}
+	sum := 0
+	for i := 10; i > 1; i-- {
+		sum += dgts[10-i] * i
+	}
+	if sum%11 < 2 {
+		dcode[0] = 0
+	} else {
+		dcode[0] = 11 - sum%11
+	}
+	dgts = append(dgts, dcode[0])
+	sum = 0
+	for i := 11; i > 1; i-- {
+		sum += dgts[11-i] * i
+	}
+	if sum%11 < 2 {
+		dcode[1] = 0
+	} else {
+		dcode[1] = 11 - sum%11
+	}
+	dgts = append(dgts, dcode[1])
+	sb := strings.Builder{}
+	for _, v := range dgts {
+		sb.WriteRune(runeIV(v))
+	}
+	return sb.String()
 }
 
 func validateCPF(cpf string) (validCpf string) {
