@@ -16,13 +16,6 @@ func TestIsValidCPF(t *testing.T) {
 	require.False(t, xstrings.IsValidCPF(invalidCpf))
 }
 
-func TestNewRandomCPF(t *testing.T) {
-	for i := 0; i < 100; i++ {
-		cpf := xstrings.NewRandomCPF()
-		require.True(t, xstrings.IsValidCPF(cpf))
-	}
-}
-
 func TestIsValidCNPJ(t *testing.T) {
 	const validCnpj = "41.143.201/0001-25"
 	const validCnpjOnlyNumbers = "41143201000125"

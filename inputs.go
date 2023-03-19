@@ -224,14 +224,6 @@ func runeV(r rune) int {
 	return 0
 }
 
-func runeIV(r int) rune {
-	const runeTable = "0123456789"
-	if r >= 0 && r < 10 {
-		return rune(runeTable[r])
-	}
-	return 0
-}
-
 type containsRuneFunc func(rune) bool
 
 func (f containsRuneFunc) Contains(r rune) bool {
