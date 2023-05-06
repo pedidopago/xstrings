@@ -4,9 +4,6 @@ import (
 	"strings"
 
 	"github.com/forPelevin/gomoji"
-	"golang.org/x/text/runes"
-	"golang.org/x/text/transform"
-	"golang.org/x/text/unicode/norm"
 )
 
 func FirstName(v string) string {
@@ -29,20 +26,20 @@ func ContainsEmoji(v string) bool {
 	return gomoji.ContainsEmoji(v)
 }
 
-func isMnOrDingbats(r rune) bool {
-	if isMn(r) {
-		return true
-	}
-	// dingbats
-	if r >= 0x2700 && r <= 0x27BF {
-		return true
-	}
-	switch r {
-	case '.', ',', ';', ':', '!', '?', '(', ')', '[', ']', '{', '}', '/', '\\', '"', '\'', '\t', '\n', '\r', '\v', '\f', '\a', '\b', '\000':
-		return true
-	}
-	return false
-}
+// func isMnOrDingbats(r rune) bool {
+// 	if isMn(r) {
+// 		return true
+// 	}
+// 	// dingbats
+// 	if r >= 0x2700 && r <= 0x27BF {
+// 		return true
+// 	}
+// 	switch r {
+// 	case '.', ',', ';', ':', '!', '?', '(', ')', '[', ']', '{', '}', '/', '\\', '"', '\'', '\t', '\n', '\r', '\v', '\f', '\a', '\b', '\000':
+// 		return true
+// 	}
+// 	return false
+// }
 
 var allowedRanges = []struct {
 	from rune
@@ -209,6 +206,62 @@ var inverseReplacements = []struct {
 	},
 }
 
+var conditionalReplacements = []struct {
+	from        rune
+	to          rune
+	replacement func(rune) string
+}{
+	{
+		// https://www.compart.com/en/unicode/block/U+1D400
+		from: 0x1D400,
+		to:   0x1D419,
+		replacement: func(r rune) string {
+			return string(r - 0x1D400 + 0x41)
+		},
+	},
+	{
+		// https://www.compart.com/en/unicode/block/U+1D400
+		from: 0x1D41a,
+		to:   0x1D433,
+		replacement: func(r rune) string {
+			return string(r - 0x1D41a + 0x61)
+		},
+	},
+	{
+		// https://www.compart.com/en/unicode/block/U+1D400
+		from: 0x1D434,
+		to:   0x1D44d,
+		replacement: func(r rune) string {
+			return string(r - 0x1D434 + 0x41)
+		},
+	},
+	{
+		// https://www.compart.com/en/unicode/block/U+1D400
+		from: 0x1d44e,
+		to:   0x1d467,
+		replacement: func(r rune) string {
+			return string(r - 0x1d44e + 0x61)
+		},
+	},
+	{
+		// https://www.compart.com/en/unicode/block/U+1D400
+		from: 0x1d468,
+		to:   0x1d481,
+		replacement: func(r rune) string {
+			return string(r - 0x1d468 + 0x41)
+		},
+	},
+	{
+		// https://www.compart.com/en/unicode/block/U+1D400
+		from: 0x1d482,
+		to:   0x1d49b,
+		replacement: func(r rune) string {
+			return string(r - 0x1d482 + 0x61)
+		},
+	},
+	//TODO: continue from 0x1d49b+1
+}
+
 var invreplMap map[rune]string
 
 func unicodeNameRemap(name string) string {
@@ -225,9 +278,9 @@ func unicodeNameRemap(name string) string {
 
 func NormalizeForNameExcludingInvalidChars(v string) string {
 
-	t := transform.Chain(norm.NFKD, runes.Remove(containsRuneFunc(isMnOrDingbats)), norm.NFC)
+	// t := transform.Chain(norm.NFKD, runes.Remove(containsRuneFunc(isMnOrDingbats)), norm.NFC)
 	// t := transform.Chain(norm.NFKD, transform.RemoveFunc(isMn), norm.NFC)
-	v, _, _ = transform.String(t, v)
+	// v, _, _ = transform.String(t, v)
 	vf := strings.TrimSpace(NormalizeForName(RemoveEmojis(v)))
 
 	vf = unicodeNameRemap(vf)
@@ -253,6 +306,11 @@ func init() {
 	for _, item := range allowedRanges {
 		for i := item.from; i <= item.to; i++ {
 			invreplMap[i] = string(i)
+		}
+	}
+	for _, item := range conditionalReplacements {
+		for i := item.from; i <= item.to; i++ {
+			invreplMap[i] = item.replacement(i)
 		}
 	}
 }
