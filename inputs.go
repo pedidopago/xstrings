@@ -56,6 +56,21 @@ func NormalizeNumericStr(s string) string {
 	}, s)
 }
 
+func NormalizeAphanumericStr(s string) string {
+	return strings.Map(func(r rune) rune {
+		if r >= '0' && r <= '9' {
+			return r
+		}
+		if r >= 'a' && r <= 'z' {
+			return r - ('a' - 'A')
+		}
+		if r >= 'A' && r <= 'Z' {
+			return r
+		}
+		return -1
+	}, s)
+}
+
 // RemoveDiacritics translates é á Í into e a I
 func RemoveDiacritics(v string) string {
 	t := transform.Chain(norm.NFD, runes.Remove(containsRuneFunc(isMn)), norm.NFC)

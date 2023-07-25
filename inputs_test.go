@@ -20,6 +20,12 @@ func TestNormalizeNumericStr(t *testing.T) {
 	assert.Equal(t, "123", xstrings.NormalizeNumericStr("1a2s3d😎"))
 }
 
+func TestNormalizeAplhaNumericStr(t *testing.T) {
+	assert.Equal(t, "112A34567890", xstrings.NormalizeAphanumericStr("+1(12A)34567890"))
+	assert.Equal(t, "XYZ", xstrings.NormalizeAphanumericStr("👀xyz"))
+	assert.Equal(t, "1A2S3D", xstrings.NormalizeAphanumericStr("1a2s3d😎"))
+}
+
 func TestFormatPhoneNumber(t *testing.T) {
 	assert.Equal(t, "+5511900000000", xstrings.FormatPhoneNumber("+55 11 90000-0000"))
 	assert.Equal(t, "11900000000", xstrings.FormatPhoneNumber(" (11) 90000-0000🏄"))
