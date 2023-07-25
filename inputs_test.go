@@ -21,9 +21,9 @@ func TestNormalizeNumericStr(t *testing.T) {
 }
 
 func TestNormalizeAplhaNumericStr(t *testing.T) {
-	assert.Equal(t, "112A34567890", xstrings.NormalizeAphanumericStr("+1(12A)34567890"))
-	assert.Equal(t, "XYZ", xstrings.NormalizeAphanumericStr("👀xyz"))
-	assert.Equal(t, "1A2S3D", xstrings.NormalizeAphanumericStr("1a2s3d😎"))
+	assert.Equal(t, "112A34567890", xstrings.NormalizeAlphanumericStr("+1(12A)34567890"))
+	assert.Equal(t, "XYZ", xstrings.NormalizeAlphanumericStr("👀xyz"))
+	assert.Equal(t, "1A2S3D", xstrings.NormalizeAlphanumericStr("1a2s3d😎"))
 }
 
 func TestFormatPhoneNumber(t *testing.T) {

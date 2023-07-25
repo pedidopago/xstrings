@@ -56,7 +56,7 @@ func NormalizeNumericStr(s string) string {
 	}, s)
 }
 
-func NormalizeAphanumericStr(s string) string {
+func NormalizeAlphanumericStr(s string) string {
 	return strings.Map(func(r rune) rune {
 		if r >= '0' && r <= '9' {
 			return r
