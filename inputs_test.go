@@ -12,6 +12,7 @@ func TestNormalizeIntlPhoneNumberStr(t *testing.T) {
 	assert.Equal(t, "+5511900000000", xstrings.NormalizeIntlPhoneNumberStr("+55 11 90000-0000", true))
 	assert.Equal(t, "5511900000000", xstrings.NormalizeIntlPhoneNumberStr("+55 11 90000-0000", false))
 	assert.Equal(t, "11900000000", xstrings.NormalizeIntlPhoneNumberStr(" (11) 90000-0000🏄", false))
+	assert.Equal(t, "+11900000000", xstrings.NormalizeIntlPhoneNumberStr("++ (11)+ 90000-0000🏄", true))
 }
 
 func TestNormalizeNumericStr(t *testing.T) {
