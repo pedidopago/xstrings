@@ -38,6 +38,11 @@ func Length(s string) int {
 //	NormalizeIntlPhoneNumberStr("1-234-567-8901", false) // "12345678901"
 func NormalizeIntlPhoneNumberStr(s string, plusSign bool) string {
 	num := NormalizeNumericStr(s)
+
+	if num == "" {
+		return ""
+	}
+
 	if plusSign {
 		return "+" + num
 	}
