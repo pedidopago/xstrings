@@ -6,6 +6,8 @@ import (
 	"github.com/forPelevin/gomoji"
 )
 
+//go:generate go run cmd/replacemapper/main.go name_string_replacer.csv
+
 func FirstName(v string) string {
 	// remove special characters
 	v = Clean(v)
@@ -277,7 +279,14 @@ func unicodeNameRemap(name string) string {
 }
 
 func NormalizeForNameExcludingInvalidChars(v string) string {
-
+	v = strings.TrimPrefix(v, "@")
+	v = strings.ReplaceAll(v, "@", "a")
+	v = strings.Map(func(r rune) rune {
+		if x, ok := nameRuneReplaceMap[r]; ok {
+			return x
+		}
+		return r
+	}, v)
 	// t := transform.Chain(norm.NFKD, runes.Remove(containsRuneFunc(isMnOrDingbats)), norm.NFC)
 	// t := transform.Chain(norm.NFKD, transform.RemoveFunc(isMn), norm.NFC)
 	// v, _, _ = transform.String(t, v)
